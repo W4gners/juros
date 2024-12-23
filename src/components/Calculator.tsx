@@ -5,6 +5,10 @@ import CompoundInterest from './calculators/CompoundInterest';
 import Financing from './calculators/Financing';
 import Investment from './calculators/Investment';
 import AdBanner from './AdBanner';
+import SimpleInterestExplanation from './explanations/SimpleInterestExplanation';
+import CompoundInterestExplanation from './explanations/CompoundInterestExplanation';
+import FinancingExplanation from './explanations/FinancingExplanation';
+import InvestmentExplanation from './explanations/InvestmentExplanation';
 
 type CalculatorType = 'simple' | 'compound' | 'financing' | 'investment';
 
@@ -14,7 +18,7 @@ export default function Calculator() {
 
   const handleCalculatorChange = (calculatorType: CalculatorType) => {
     setActiveCalculator(calculatorType);
-    setResult(null); // Clear result when switching calculators
+    setResult(null);
   };
 
   const calculators = [
@@ -24,10 +28,23 @@ export default function Calculator() {
     { id: 'investment', name: 'Investimentos' },
   ];
 
+  const renderExplanation = () => {
+    switch (activeCalculator) {
+      case 'simple':
+        return <SimpleInterestExplanation />;
+      case 'compound':
+        return <CompoundInterestExplanation />;
+      case 'financing':
+        return <FinancingExplanation />;
+      case 'investment':
+        return <InvestmentExplanation />;
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-900 text-white p-4">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-6">
-        <div className="lg:col-span-3">
+        <div className="lg:col-span-3 space-y-6">
           <div className="bg-gray-800 rounded-lg p-6 shadow-xl">
             <div className="flex items-center mb-6">
               <CalculatorIcon className="w-6 h-6 mr-2 text-emerald-500" />
@@ -66,6 +83,8 @@ export default function Calculator() {
               </div>
             )}
           </div>
+
+          {renderExplanation()}
         </div>
 
         <div className="lg:col-span-1">

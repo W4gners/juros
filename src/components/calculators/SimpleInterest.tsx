@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Calculator } from 'lucide-react';
 import InputField from '../ui/InputField';
 import PeriodSelector from '../ui/PeriodSelector';
+import { parseLocaleNumber } from '../../utils/numberFormat';
 
 interface SimpleInterestProps {
   setResult: (value: number) => void;
@@ -14,7 +15,7 @@ export default function SimpleInterest({ setResult }: SimpleInterestProps) {
   const [isAnnual, setIsAnnual] = useState(true);
 
   const calculateInterest = () => {
-    const p = parseFloat(principal);
+    const p = parseLocaleNumber(principal);
     const r = parseFloat(rate) / 100;
     const t = parseFloat(time);
     
@@ -32,17 +33,17 @@ export default function SimpleInterest({ setResult }: SimpleInterestProps) {
         <InputField
           label="Valor Principal (R$)"
           value={principal}
-          onChange={(e) => setPrincipal(e.target.value)}
-          type="number"
-          placeholder="0.00"
+          onChange={setPrincipal}
+          type="currency"
+          placeholder="0,00"
         />
         
         <InputField
           label="Taxa de Juros (%)"
           value={rate}
-          onChange={(e) => setRate(e.target.value)}
+          onChange={setRate}
           type="number"
-          placeholder="0.00"
+          placeholder="0,00"
           periodSelector={
             <PeriodSelector isAnnual={isAnnual} onChange={setIsAnnual} />
           }
@@ -51,7 +52,7 @@ export default function SimpleInterest({ setResult }: SimpleInterestProps) {
         <InputField
           label="Tempo (meses)"
           value={time}
-          onChange={(e) => setTime(e.target.value)}
+          onChange={setTime}
           type="number"
           placeholder="0"
         />
